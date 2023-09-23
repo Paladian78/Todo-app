@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: dynamodb
+  name: dynamodb
+spec:
+  serviceName: dynamodb
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dynamodb
+  template:
+    metadata:
+      labels:
+        app: dynamodb
+    spec:
+      containers:
+        - image: amazon/dynamodb-local
+          imagePullPolicy: ""
+          name: dynamodb
+          ports:
+            - containerPort: 8000
+          resources: {}
+          volumeMounts:
+            - mountPath: /home/dynamodblocal/data
+              name: dynamodb-claim
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes:
+        - name: dynamodb-claim
+          persistentVolumeClaim:
+            claimName: dynamodb-claim
+  volumeClaimTemplates:
+    - metadata:
+        name: dynamodb-claim
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: dynamodb
+        resources:
+          requests:
+            storage: 1Gi
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: dynamodb
+provisioner: k8s.io/minikube-hostpath
+reclaimPolicy: Retain
+volumeBindingMode: Immediate

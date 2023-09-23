@@ -9,7 +9,9 @@
   "author": "Vanessa Ating",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.1459.0",
     "body-parser": "^1.18.0",
+    "dotenv": "^16.3.1",
     "ejs": "^2.5.7",
     "express": "^4.15.4"
   }

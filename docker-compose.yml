@@ -1,0 +1,28 @@
+version: "3"
+
+volumes:
+  dynamodb_data:
+
+networks:
+  testNetwork:
+
+services:
+  dynamodb:
+    image: amazon/dynamodb-local
+    command: -jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal/data/
+    volumes:
+      - dynamodb_data:/home/dynamodblocal/data
+    ports:
+      - "5100:8000"
+    networks:
+      - testNetwork
+  app:
+    build: .
+    ports:
+      - "5000:3000"
+    environment:
+      - DYNAMO_URL=http://dynamodb:5100
+    networks:
+      - testNetwork
+    depends_on:
+      - dynamodb
