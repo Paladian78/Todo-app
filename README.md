@@ -22,6 +22,11 @@
 <li> Then start the server using <code> node index.js </code> </li>
 
 <li> Navigate to your browser <code> http://localhost:3000/ </code> to view the app </li>
+
+<li> The database is connected but it is not managing the data from the application yet. Although the volume mounts and every other configuration is correct</li>
 </ol>
 
-<p> I wrote a blog post on how to build this app, you can check it out <a href="https://medium.com/@atingenkay/creating-a-todo-app-with-node-js-express-8fa51f39b16f" target="_blank">Here</a>
+## Kubernetes deployment
+
+- All the manifest files are present in kubernetes folder
+- You can configure Argocd and give path as this folder for deployment.
